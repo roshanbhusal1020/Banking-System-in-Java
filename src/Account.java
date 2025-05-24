@@ -15,6 +15,13 @@ public class Account {
 //        this.balance = balance;
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+    public int getPasscode() {
+        return this.passcode;
+    }
+
     public void deposit(double amount) {
         this.balance += amount;
 
@@ -34,5 +41,4 @@ public class Account {
 
         }
     }
-
 }

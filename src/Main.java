@@ -9,17 +9,24 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Welcome to Banking System\n" + "1. Sign up\n" + "2. Log in\n" + "3. Exit\n");
-        String choice = sc.nextLine();
+        while (true) {
+            System.out.println("Welcome to Banking System\n" + "1. Sign up\n" + "2. Log in\n" + "3. Exit\n");
+            String choice = sc.nextLine();
 
-        if (choice.equals("1")) {
-            signup(sc);
-        } else if (choice.equals("2")) {
-            login(sc);
-        } else if (choice.equals("3")) {
-            System.out.println("Thank you for using Banking System");
-            return;
+            if (choice.equals("1")) {
+                signup(sc);
+            } else if (choice.equals("2")) {
+                login(sc);
+            } else if (choice.equals("3")) {
+                System.out.println("Thank you for using Banking System");
+                return;
+            } else {
+                System.out.println("Invalid option");
+            }
         }
+
+
+
 
     }
 
@@ -39,6 +46,7 @@ public class Main {
 
     }
 
+
     public static void  operations(Scanner sc, Account ac) {
         while (true) {
             String input = sc.nextLine();
@@ -57,6 +65,31 @@ public class Main {
                                 ac.display();
                                 break;
 
+                case  "logout": System.out.println("Logged out");
+                                return;
+                case   "transfer":
+                    System.out.println("Please enter the account number: ");
+                    String transferAccountName = sc.nextLine();
+                    System.out.println("Please enter the amount to transfer: ");
+                    Integer transferAmount = sc.nextInt();
+
+                    boolean accountExists = false;
+                    for(Account acc : accounts) {
+                        if(acc.getUsername().equals(transferAccountName)) {
+                            acc.deposit(transferAmount);
+                            ac.withdraw(transferAmount);
+                            System.out.println("Transfered acmount: " + transferAmount  + " from " + ac.getUsername() + " to " + acc.getUsername());
+                            ac.display();
+                            accountExists = true;
+                            break;
+                        }
+                    }
+                    if(!accountExists) {
+                        System.out.println("Account does not exist");
+                    }
+                    break;
+
+
             }
 
         }
@@ -65,6 +98,16 @@ public class Main {
         System.out.println("Welcome to Banking System\n Plese enter your username: ");
         String username = sc.nextLine();
         System.out.println("Please enter your passcode: ");
-        String passcode = sc.nextLine();
+        int passcode = sc.nextInt();
+        sc.nextLine();
+        for (Account ac : accounts) {
+            if(ac.getUsername().equals(username) && ac.getPasscode()==passcode) {
+                System.out.println("Login Successful");
+                operations(sc, ac);
+                return;
+            }
+        }
     }
+
+
 }
